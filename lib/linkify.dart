@@ -53,6 +53,25 @@ class EmailElement extends LinkableElement {
       other.emailAddress == emailAddress;
 }
 
+/// Represents an element containing a phone number
+class PhoneElement extends LinkableElement {
+  final String phoneNumber;
+
+  PhoneElement(this.phoneNumber) : super(phoneNumber, "tel:$phoneNumber");
+
+  @override
+  String toString() {
+    return "PhoneElement: '$phoneNumber' ($text)";
+  }
+
+  bool operator ==(other) => equals(other);
+
+  bool equals(other) =>
+      other is PhoneElement &&
+      super.equals(other) &&
+      other.phoneNumber == phoneNumber;
+}
+
 /// Represents an element containing text
 class TextElement extends LinkifyElement {
   TextElement(String text) : super(text);
@@ -67,7 +86,7 @@ class TextElement extends LinkifyElement {
   bool equals(other) => other is TextElement && super.equals(other);
 }
 
-enum LinkType { url, email }
+enum LinkType { url, email, phone }
 
 final _linkifyUrlRegex = RegExp(
   r"^((?:.|\n)*?)((?:https?):\/\/[^\s/$.?#].[^\s]*)",
@@ -79,17 +98,23 @@ final _linkifyEmailRegex = RegExp(
   caseSensitive: false,
 );
 
+final _linkifyPhoneRegex = RegExp(
+  r"^((?:.|\n)*?)((tel:)?([+0-9]{2,4}?\s?[0-9\s\(\)]{8,15}))",
+  caseSensitive: false,
+);
+
 /// Turns [text] into a list of [LinkifyElement]
 ///
 /// Use [humanize] to remove http/https from the start of the URL shown.
 /// Will default to `false` (if `null`)
 ///
-/// Uses [linkTypes] to enable some types of links (URL, email).
+/// Uses [linkTypes] to enable some types of links (URL, email, phone).
 /// Will default to all (if `null`).
 List<LinkifyElement> linkify(
   String text, {
   bool humanize,
   List<LinkType> linkTypes,
+  RegExp phoneRegex,
 }) {
   final list = List<LinkifyElement>();
 
@@ -111,8 +136,13 @@ List<LinkifyElement> linkify(
   final emailMatch = linkTypes.contains(LinkType.email)
       ? _linkifyEmailRegex.firstMatch(text)
       : null;
+  final phoneMatch = linkTypes.contains(LinkType.phone)
+      ? phoneRegex != null
+          ? phoneRegex.firstMatch(text)
+          : _linkifyPhoneRegex.firstMatch(text)
+      : null;
 
-  if (urlMatch == null && emailMatch == null) {
+  if (urlMatch == null && emailMatch == null && phoneMatch == null) {
     list.add(TextElement(text));
   } else {
     if (urlMatch != null) {
@@ -145,12 +175,26 @@ List<LinkifyElement> linkify(
           emailMatch.group(2).replaceFirst(RegExp(r"mailto:"), ""),
         ));
       }
+    } else if (phoneMatch != null) {
+      text = text.replaceFirst(phoneMatch.group(0), "");
+
+      if (phoneMatch.group(1).isNotEmpty) {
+        list.add(TextElement(phoneMatch.group(1)));
+      }
+
+      if (phoneMatch.group(2).isNotEmpty) {
+        // Always humanize phones
+        list.add(PhoneElement(
+          phoneMatch.group(2).replaceFirst(RegExp(r"tel:"), ""),
+        ));
+      }
     }
 
     list.addAll(linkify(
       text,
       humanize: humanize,
       linkTypes: linkTypes,
+      phoneRegex: phoneRegex,
     ));
   }
 

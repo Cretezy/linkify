@@ -4,3 +4,4 @@
 .pub/
 build/
 doc/api/
+.vscode/
