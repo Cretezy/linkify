@@ -67,7 +67,7 @@ class TextElement extends LinkifyElement {
   bool equals(other) => other is TextElement && super.equals(other);
 }
 
-enum LinkType { url, email }
+enum LinkType { url, email, href }
 
 final _linkifyUrlRegex = RegExp(
   r"^((?:.|\n)*?)((?:https?):\/\/[^\s/$.?#].[^\s]*)",
@@ -76,6 +76,11 @@ final _linkifyUrlRegex = RegExp(
 
 final _linkifyEmailRegex = RegExp(
   r"^((?:.|\n)*?)((mailto:)?[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})",
+  caseSensitive: false,
+);
+
+final _linkifyHrefRegex = RegExp(
+  r"(\[([^\]]+)\]\s*\()((http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?)\)?",
   caseSensitive: false,
 );
 
@@ -111,11 +116,19 @@ List<LinkifyElement> linkify(
   final emailMatch = linkTypes.contains(LinkType.email)
       ? _linkifyEmailRegex.firstMatch(text)
       : null;
-
-  if (urlMatch == null && emailMatch == null) {
+  final hrefMatch = linkTypes.contains(LinkType.href)
+      ? _linkifyHrefRegex.firstMatch(text)
+      : null;
+  if (urlMatch == null && emailMatch == null && hrefMatch == null) {
     list.add(TextElement(text));
   } else {
-    if (urlMatch != null) {
+    if (hrefMatch != null) {
+      text = text.replaceFirst(hrefMatch.group(0), "");
+
+      if (hrefMatch.group(2).isNotEmpty && hrefMatch.group(3).isNotEmpty) {
+        list.add(LinkElement(hrefMatch.group(3), hrefMatch.group(2)));
+      }
+    } else if (urlMatch != null) {
       text = text.replaceFirst(urlMatch.group(0), "");
 
       if (urlMatch.group(1).isNotEmpty) {

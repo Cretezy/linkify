@@ -81,4 +81,11 @@ void main() {
       [EmailElement("person@example.com")],
     );
   });
+
+  test('Parses href', () {
+    expectListEqual(
+      linkify("[here](https://www.example.com)"),
+      [LinkElement("https://www.example.com", "here")],
+    );
+  });
 }
