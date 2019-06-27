@@ -80,7 +80,7 @@ final _linkifyEmailRegex = RegExp(
 );
 
 final _linkifyHrefRegex = RegExp(
-  r"(\[([^\]]+)\]\s*\()((http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?)\)?",
+  r"^((?:.|\n)*?)(\[([^\]]+)\]\s*\()((http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?)\)?",
   caseSensitive: false,
 );
 
@@ -125,8 +125,15 @@ List<LinkifyElement> linkify(
     if (hrefMatch != null) {
       text = text.replaceFirst(hrefMatch.group(0), "");
 
+      if (hrefMatch.group(1).isNotEmpty) {
+        list.add(TextElement(hrefMatch.group(1)));
+      }
+
       if (hrefMatch.group(2).isNotEmpty && hrefMatch.group(3).isNotEmpty) {
-        list.add(LinkElement(hrefMatch.group(3), hrefMatch.group(2)));
+        list.add(LinkElement(
+          hrefMatch.group(3), // link
+          hrefMatch.group(2), // humanized text
+        ));
       }
     } else if (urlMatch != null) {
       text = text.replaceFirst(urlMatch.group(0), "");

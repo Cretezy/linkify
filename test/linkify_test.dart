@@ -88,4 +88,14 @@ void main() {
       [LinkElement("https://www.example.com", "here")],
     );
   });
+
+  test('Parses href with text', () {
+    expectListEqual(
+      linkify("Lorem ipsum dolor sit amet [here](https://www.example.com)"),
+      [
+        TextElement("Lorem ipsum dolor sit amet "),
+        LinkElement("https://www.example.com", "here")
+      ],
+    );
+  });
 }
