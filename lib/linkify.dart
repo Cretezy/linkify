@@ -129,10 +129,10 @@ List<LinkifyElement> linkify(
         list.add(TextElement(hrefMatch.group(1)));
       }
 
-      if (hrefMatch.group(2).isNotEmpty && hrefMatch.group(3).isNotEmpty) {
+      if (hrefMatch.group(3).isNotEmpty && hrefMatch.group(4).isNotEmpty) {
         list.add(LinkElement(
-          hrefMatch.group(3), // link
-          hrefMatch.group(2), // humanized text
+          hrefMatch.group(4), // link
+          hrefMatch.group(3), // humanized text
         ));
       }
     } else if (urlMatch != null) {
