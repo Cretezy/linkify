@@ -70,7 +70,7 @@ class TextElement extends LinkifyElement {
 enum LinkType { url, email }
 
 final _linkifyUrlRegex = RegExp(
-  r"^((?:.|\n)*?)((?:https?):\/\/[^\s/$.?#].[^\s]*)",
+  r"((?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9])(:?\d*)\/?([a-z_\/0-9\-#.]*)\??([a-z_\/0-9\-#=&]*)",
   caseSensitive: false,
 );
 
@@ -155,4 +155,9 @@ List<LinkifyElement> linkify(
   }
 
   return list;
+}
+
+
+void main() {
+  print(_linkifyUrlRegex.allMatches('google.com'));
 }
