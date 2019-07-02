@@ -156,8 +156,3 @@ List<LinkifyElement> linkify(
 
   return list;
 }
-
-
-void main() {
-  print(_linkifyUrlRegex.allMatches('google.com'));
-}
