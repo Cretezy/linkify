@@ -92,6 +92,7 @@ List<LinkifyElement> linkify(
   List<LinkType> linkTypes,
 }) {
   final list = List<LinkifyElement>();
+  text = text.replaceAll("\r", "");
 
   if (text == null || text.isEmpty) {
     return list;
