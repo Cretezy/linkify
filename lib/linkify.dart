@@ -1,3 +1,9 @@
+import 'package:linkify/src/email.dart';
+import 'package:linkify/src/url.dart';
+
+export 'package:linkify/src/email.dart' show EmailLinkifier, EmailElement;
+export 'package:linkify/src/url.dart' show UrlLinkifier, UrlElement;
+
 abstract class LinkifyElement {
   final String text;
 
@@ -20,39 +26,6 @@ class LinkableElement extends LinkifyElement {
       other is LinkableElement && super.equals(other) && other.url == url;
 }
 
-/// Represents an element containing a link
-class LinkElement extends LinkableElement {
-  LinkElement(String url, [String text]) : super(text, url);
-
-  @override
-  String toString() {
-    return "LinkElement: '$url' ($text)";
-  }
-
-  bool operator ==(other) => equals(other);
-
-  bool equals(other) => other is LinkElement && super.equals(other);
-}
-
-/// Represents an element containing an email address
-class EmailElement extends LinkableElement {
-  final String emailAddress;
-
-  EmailElement(this.emailAddress) : super(emailAddress, "mailto:$emailAddress");
-
-  @override
-  String toString() {
-    return "EmailElement: '$emailAddress' ($text)";
-  }
-
-  bool operator ==(other) => equals(other);
-
-  bool equals(other) =>
-      other is EmailElement &&
-      super.equals(other) &&
-      other.emailAddress == emailAddress;
-}
-
 /// Represents an element containing text
 class TextElement extends LinkifyElement {
   TextElement(String text) : super(text);
@@ -67,17 +40,21 @@ class TextElement extends LinkifyElement {
   bool equals(other) => other is TextElement && super.equals(other);
 }
 
-enum LinkType { url, email }
+abstract class Linkifier {
+  const Linkifier();
 
-final _linkifyUrlRegex = RegExp(
-  r"^((?:.|\n)*?)((?:https?):\/\/[^\s/$.?#].[^\s]*)",
-  caseSensitive: false,
-);
+  List<LinkifyElement> parse(
+      List<LinkifyElement> elements, LinkifyOptions options);
+}
 
-final _linkifyEmailRegex = RegExp(
-  r"^((?:.|\n)*?)((mailto:)?[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})",
-  caseSensitive: false,
-);
+class LinkifyOptions {
+  final bool humanize;
+
+  LinkifyOptions({this.humanize = true});
+}
+
+const _urlLinkifier = const UrlLinkifier();
+const _emailLinkifier = const EmailLinkifier();
 
 /// Turns [text] into a list of [LinkifyElement]
 ///
@@ -88,71 +65,25 @@ final _linkifyEmailRegex = RegExp(
 /// Will default to all (if `null`).
 List<LinkifyElement> linkify(
   String text, {
-  bool humanize,
-  List<LinkType> linkTypes,
+  LinkifyOptions options,
+  List<Linkifier> linkifiers = const [_urlLinkifier, _emailLinkifier],
 }) {
-  final list = List<LinkifyElement>();
+  var list = <LinkifyElement>[TextElement(text)];
 
   if (text == null || text.isEmpty) {
+    return [];
+  }
+
+  if (linkifiers == null || linkifiers.isEmpty) {
     return list;
   }
 
-  if (humanize == null) {
-    humanize = false;
-  }
+  options ??= LinkifyOptions();
 
-  if (linkTypes == null) {
-    linkTypes = LinkType.values;
-  }
-
-  final urlMatch = linkTypes.contains(LinkType.url)
-      ? _linkifyUrlRegex.firstMatch(text)
-      : null;
-  final emailMatch = linkTypes.contains(LinkType.email)
-      ? _linkifyEmailRegex.firstMatch(text)
-      : null;
-
-  if (urlMatch == null && emailMatch == null) {
-    list.add(TextElement(text));
-  } else {
-    if (urlMatch != null) {
-      text = text.replaceFirst(urlMatch.group(0), "");
-
-      if (urlMatch.group(1).isNotEmpty) {
-        list.add(TextElement(urlMatch.group(1)));
-      }
-
-      if (urlMatch.group(2).isNotEmpty) {
-        if (humanize ?? false) {
-          list.add(LinkElement(
-            urlMatch.group(2),
-            urlMatch.group(2).replaceFirst(RegExp(r"https?://"), ""),
-          ));
-        } else {
-          list.add(LinkElement(urlMatch.group(2)));
-        }
-      }
-    } else if (emailMatch != null) {
-      text = text.replaceFirst(emailMatch.group(0), "");
-
-      if (emailMatch.group(1).isNotEmpty) {
-        list.add(TextElement(emailMatch.group(1)));
-      }
-
-      if (emailMatch.group(2).isNotEmpty) {
-        // Always humanize emails
-        list.add(EmailElement(
-          emailMatch.group(2).replaceFirst(RegExp(r"mailto:"), ""),
-        ));
-      }
-    }
-
-    list.addAll(linkify(
-      text,
-      humanize: humanize,
-      linkTypes: linkTypes,
-    ));
-  }
+  linkifiers.forEach((linkifier) {
+    list = linkifier.parse(list, options);
+    print(list);
+  });
 
   return list;
 }
