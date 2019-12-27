@@ -48,6 +48,7 @@ abstract class Linkifier {
 }
 
 class LinkifyOptions {
+  /// Removes http/https from shown URLS.
   final bool humanize;
 
   LinkifyOptions({this.humanize = true});
@@ -55,6 +56,7 @@ class LinkifyOptions {
 
 const _urlLinkifier = const UrlLinkifier();
 const _emailLinkifier = const EmailLinkifier();
+const defaultLinkifiers = [_urlLinkifier, _emailLinkifier];
 
 /// Turns [text] into a list of [LinkifyElement]
 ///
@@ -66,7 +68,7 @@ const _emailLinkifier = const EmailLinkifier();
 List<LinkifyElement> linkify(
   String text, {
   LinkifyOptions options,
-  List<Linkifier> linkifiers = const [_urlLinkifier, _emailLinkifier],
+  List<Linkifier> linkifiers = defaultLinkifiers,
 }) {
   var list = <LinkifyElement>[TextElement(text)];
 

@@ -1,3 +1,7 @@
+## [2.0.1] - 2019-12-27
+
+- Export `defaultLinkifiers`
+
 ## [2.0.0] - 2019-12-27
 
 - Change `LinkTypes` to `Linkifier`
