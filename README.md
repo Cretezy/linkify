@@ -12,7 +12,7 @@ Install by adding this package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  linkify: ^2.0.0
+  linkify: ^2.0.2
 ```
 
 ## Usage

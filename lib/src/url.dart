@@ -1,7 +1,7 @@
 import 'package:linkify/linkify.dart';
 
 final _urlRegex = RegExp(
-  r"^((?:.|\n)*?)((?:https?):\/\/[^\s/$.?#].[^\s]*)",
+  r'^((?:.|\n)*?)((?:https?):\/\/[^\s/$.?#].[^\s]*)',
   caseSensitive: false,
 );
 
@@ -9,7 +9,7 @@ class UrlLinkifier extends Linkifier {
   const UrlLinkifier();
 
   @override
-  parse(elements, options) {
+  List<LinkifyElement> parse(elements, options) {
     final list = <LinkifyElement>[];
 
     elements.forEach((element) {
@@ -19,7 +19,7 @@ class UrlLinkifier extends Linkifier {
         if (match == null) {
           list.add(element);
         } else {
-          final text = element.text.replaceFirst(match.group(0), "");
+          final text = element.text.replaceFirst(match.group(0), '');
 
           if (match.group(1).isNotEmpty) {
             list.add(TextElement(match.group(1)));
@@ -29,7 +29,7 @@ class UrlLinkifier extends Linkifier {
             if (options.humanize ?? false) {
               list.add(UrlElement(
                 match.group(2),
-                match.group(2).replaceFirst(RegExp(r"https?://"), ""),
+                match.group(2).replaceFirst(RegExp(r'https?://'), ''),
               ));
             } else {
               list.add(UrlElement(match.group(2)));

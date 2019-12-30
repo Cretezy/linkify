@@ -20,8 +20,10 @@ class LinkableElement extends LinkifyElement {
 
   LinkableElement(String text, this.url) : super(text ?? url);
 
+  @override
   bool operator ==(other) => equals(other);
 
+  @override
   bool equals(other) =>
       other is LinkableElement && super.equals(other) && other.url == url;
 }
@@ -35,8 +37,10 @@ class TextElement extends LinkifyElement {
     return "TextElement: '$text'";
   }
 
+  @override
   bool operator ==(other) => equals(other);
 
+  @override
   bool equals(other) => other is TextElement && super.equals(other);
 }
 
@@ -54,8 +58,8 @@ class LinkifyOptions {
   LinkifyOptions({this.humanize = true});
 }
 
-const _urlLinkifier = const UrlLinkifier();
-const _emailLinkifier = const EmailLinkifier();
+const _urlLinkifier = UrlLinkifier();
+const _emailLinkifier = EmailLinkifier();
 const defaultLinkifiers = [_urlLinkifier, _emailLinkifier];
 
 /// Turns [text] into a list of [LinkifyElement]

@@ -1,6 +1,6 @@
 name: linkify
 description: Low-level link (text, URLs, emails) parsing library in Dart.
-version: 2.0.1
+version: 2.0.2
 author: Charles Crete <charles@cretezy.com>
 homepage: https://github.com/Cretezy/linkify
 

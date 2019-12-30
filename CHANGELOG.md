@@ -1,3 +1,7 @@
+## [2.0.2] - 2019-12-30
+
+- Fix minor lint issues
+
 ## [2.0.1] - 2019-12-27
 
 - Export `defaultLinkifiers`
