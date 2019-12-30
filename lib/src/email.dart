@@ -56,8 +56,10 @@ class EmailElement extends LinkableElement {
     return "EmailElement: '$emailAddress' ($text)";
   }
 
+  @override
   bool operator ==(other) => equals(other);
 
+  @override
   bool equals(other) =>
       other is EmailElement &&
       super.equals(other) &&

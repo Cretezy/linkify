@@ -58,7 +58,9 @@ class UrlElement extends LinkableElement {
     return "LinkElement: '$url' ($text)";
   }
 
+  @override
   bool operator ==(other) => equals(other);
 
+  @override
   bool equals(other) => other is UrlElement && super.equals(other);
 }
