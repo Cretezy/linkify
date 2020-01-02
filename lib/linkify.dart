@@ -54,8 +54,9 @@ abstract class Linkifier {
 class LinkifyOptions {
   /// Removes http/https from shown URLS.
   final bool humanize;
+  final bool printOutput;
 
-  LinkifyOptions({this.humanize = true});
+  LinkifyOptions({this.humanize = true, this.printOutput = false});
 }
 
 const _urlLinkifier = UrlLinkifier();
@@ -86,10 +87,12 @@ List<LinkifyElement> linkify(
 
   options ??= LinkifyOptions();
 
-  linkifiers.forEach((linkifier) {
-    list = linkifier.parse(list, options);
-    print(list);
-  });
+    linkifiers.forEach((linkifier){
+      list = linkifier.parse(list, options);
+      if(options.printOutput == true){
+        print(list);
+      }
+    });
 
   return list;
 }
