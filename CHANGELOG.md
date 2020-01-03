@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Fix more minor lint issues
+- Remove extra `print`
 
 ## [2.0.2] - 2019-12-30
 

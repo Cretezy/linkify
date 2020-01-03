@@ -88,7 +88,6 @@ List<LinkifyElement> linkify(
 
   linkifiers.forEach((linkifier) {
     list = linkifier.parse(list, options);
-    print(list);
   });
 
   return list;
