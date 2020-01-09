@@ -1,4 +1,4 @@
-## Unreleased
+## [2.0.3] - 2020-01-08
 
 - Fix more minor lint issues
 - Remove extra `print`
