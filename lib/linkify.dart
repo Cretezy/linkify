@@ -52,10 +52,28 @@ abstract class Linkifier {
 }
 
 class LinkifyOptions {
-  /// Removes http/https from shown URLS.
+  /// Removes http/https from shown URLs.
   final bool humanize;
 
-  LinkifyOptions({this.humanize = true});
+  /// Removes www. from shown URLs.
+  final bool removeWww;
+
+  /// Enables loose URL parsing (any string with "." is a URL).
+  final bool looseUrl;
+
+  /// When used with [looseUrl], default to `https` instead of `http`.
+  final bool defaultToHttps;
+
+  /// Excludes `.` at end of URLs.
+  final bool excludeLastPeriod;
+
+  LinkifyOptions({
+    this.humanize = true,
+    this.removeWww = false,
+    this.looseUrl = false,
+    this.defaultToHttps = false,
+    this.excludeLastPeriod = true,
+  });
 }
 
 const _urlLinkifier = UrlLinkifier();

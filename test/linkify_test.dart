@@ -35,12 +35,28 @@ void main() {
       linkify("https://example.com"),
       [UrlElement("https://example.com", "example.com")],
     );
+
+    expectListEqual(
+      linkify("https://www.example.com",
+          options: LinkifyOptions(removeWww: true)),
+      [UrlElement("https://www.example.com", "example.com")],
+    );
   });
 
   test('Parses only link with no humanize', () {
     expectListEqual(
       linkify("https://example.com", options: LinkifyOptions(humanize: false)),
       [UrlElement("https://example.com")],
+    );
+  });
+
+  test('Parses only link with removeWwww', () {
+    expectListEqual(
+      linkify(
+        "https://www.example.com",
+        options: LinkifyOptions(removeWww: true),
+      ),
+      [UrlElement("https://www.example.com", "example.com")],
     );
   });
 
@@ -120,6 +136,38 @@ void main() {
       linkify("person@example.com at https://google.com", linkifiers: []),
       [
         TextElement("person@example.com at https://google.com"),
+      ],
+    );
+  });
+
+  test('Parses loose URL', () {
+    expectListEqual(
+      linkify("example.com/test", options: LinkifyOptions(looseUrl: true)),
+      [UrlElement("http://example.com/test", "example.com/test")],
+    );
+
+    expectListEqual(
+      linkify("www.example.com",
+          options: LinkifyOptions(
+            looseUrl: true,
+            removeWww: true,
+            defaultToHttps: true,
+          )),
+      [UrlElement("https://www.example.com", "example.com")],
+    );
+
+    expectListEqual(
+      linkify("https://example.com", options: LinkifyOptions(looseUrl: true)),
+      [UrlElement("https://example.com", "example.com")],
+    );
+  });
+
+  test('Parses ending period', () {
+    expectListEqual(
+      linkify("https://example.com/test."),
+      [
+        UrlElement("https://example.com/test", "example.com/test"),
+        TextElement(".")
       ],
     );
   });

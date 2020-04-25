@@ -5,6 +5,11 @@ final _urlRegex = RegExp(
   caseSensitive: false,
 );
 
+final _looseUrlRegex = RegExp(
+  r'^((?:.|\n)*?)([^\s]*\.[^\s]*)',
+  caseSensitive: false,
+);
+
 class UrlLinkifier extends Linkifier {
   const UrlLinkifier();
 
@@ -14,7 +19,13 @@ class UrlLinkifier extends Linkifier {
 
     elements.forEach((element) {
       if (element is TextElement) {
-        final match = _urlRegex.firstMatch(element.text);
+        var loose = false;
+        var match = _urlRegex.firstMatch(element.text);
+
+        if (match == null && options.looseUrl ?? false) {
+          match = _looseUrlRegex.firstMatch(element.text);
+          loose = true;
+        }
 
         if (match == null) {
           list.add(element);
@@ -26,13 +37,41 @@ class UrlLinkifier extends Linkifier {
           }
 
           if (match.group(2).isNotEmpty) {
-            if (options.humanize ?? false) {
+            var originalUrl = match.group(2);
+            String end;
+
+            if ((options.excludeLastPeriod ?? false) &&
+                originalUrl[originalUrl.length - 1] == ".") {
+              end = ".";
+              originalUrl = originalUrl.substring(0, originalUrl.length - 1);
+            }
+
+            var url = originalUrl;
+
+            if (loose) {
+              originalUrl =
+                  (options.defaultToHttps ?? false ? "https://" : "http://") +
+                      originalUrl;
+            }
+
+            if ((options.humanize ?? false) || (options.removeWww ?? false)) {
+              if (options.humanize ?? false) {
+                url = url.replaceFirst(RegExp(r'https?://'), '');
+              }
+              if (options.removeWww ?? false) {
+                url = url.replaceFirst(RegExp(r'www\.'), '');
+              }
+
               list.add(UrlElement(
-                match.group(2),
-                match.group(2).replaceFirst(RegExp(r'https?://'), ''),
+                originalUrl,
+                url,
               ));
             } else {
-              list.add(UrlElement(match.group(2)));
+              list.add(UrlElement(originalUrl));
+            }
+
+            if (end != null) {
+              list.add(TextElement(end));
             }
           }
 

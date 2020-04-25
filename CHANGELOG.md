@@ -1,3 +1,13 @@
+## [2.1.0] - 2020-04-24
+
+- Add loose URL option (`looseUrl`)
+  - Parses any URL containing `.`
+  - Defaults to `http` URLs. Can use `https` by enabling the `defaultToHttps` option
+- Added `www.` removal (`removeWww`)
+  - Removes URLs prefixed with `www.`
+- Added exclusion of last period (`excludeLastPeriod`, enabled by default)
+  - Parses `https://example.com.` as `https://example.com`
+
 ## [2.0.3] - 2020-01-08
 
 - Fix more minor lint issues

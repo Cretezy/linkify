@@ -36,6 +36,13 @@ linkify("https://cretezy.com", options: LinkifyOptions(humanize: false));
 // [UrlElement: 'https://cretezy.com' (https://cretezy.com)]
 ```
 
+- `humanize`: Removes http/https from shown URLs
+- `removeWww`: Removes www. from shown URLs
+- `looseUrl`: Enables loose URL parsing (any string with "." is a URL)
+  - `defaultToHttps`: When used with [looseUrl], default to `https` instead of `http`
+- `excludeLastPeriod`: Excludes `.` at end of URLs
+
+
 ## Custom Linkifier
 
 You can write custom linkifiers for phone numbers or other types of links. Look at the [URL linkifier](./lib/src/url.dart) for an example.
