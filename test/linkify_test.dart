@@ -171,4 +171,14 @@ void main() {
       ],
     );
   });
+
+  test('Parses CR correctly.', () {
+    expectListEqual(
+      linkify('lorem\r\nipsum https://example.com'),
+      [
+        TextElement('lorem\r\nipsum '),
+        UrlElement('https://example.com', 'example.com'),
+      ],
+    );
+  });
 }

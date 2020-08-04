@@ -5,7 +5,7 @@ author: Charles Crete <charles@cretezy.com>
 homepage: https://github.com/Cretezy/linkify
 
 environment:
-  sdk: ">=2.0.0 <3.0.0"
+  sdk: ">=2.4.0 <3.0.0"
 
 dev_dependencies:
   collection: ^1.0.0
