@@ -160,6 +160,11 @@ void main() {
       linkify("https://example.com", options: LinkifyOptions(looseUrl: true)),
       [UrlElement("https://example.com", "example.com")],
     );
+
+    expectListEqual(
+      linkify("https://example.com.", options: LinkifyOptions(looseUrl: true)),
+      [UrlElement("https://example.com", "example.com"), TextElement(".")],
+    );
   });
 
   test('Parses ending period', () {

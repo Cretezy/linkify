@@ -12,7 +12,7 @@ Install by adding this package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  linkify: ^2.0.3
+  linkify: ^3.0.0
 ```
 
 ## Usage
@@ -37,8 +37,8 @@ linkify("https://cretezy.com", options: LinkifyOptions(humanize: false));
 ```
 
 - `humanize`: Removes http/https from shown URLs
-- `removeWww`: Removes www. from shown URLs
-- `looseUrl`: Enables loose URL parsing (any string with "." is a URL)
+- `removeWww`: Removes `www.` from shown URLs
+- `looseUrl`: Enables loose URL parsing (should parse most URLs such as `abc.com/xyz`)
   - `defaultToHttps`: When used with [looseUrl], default to `https` instead of `http`
 - `excludeLastPeriod`: Excludes `.` at end of URLs
 
