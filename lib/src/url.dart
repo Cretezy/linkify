@@ -1,19 +1,19 @@
 import 'package:linkify/linkify.dart';
 
 final _urlRegex = RegExp(
-  r'^((?:.|\n)*?)((?:https?:\/\/|www\.)[^\s/$.?#].[^\s]*)',
+  r'^(.*?)((?:https?:\/\/|www\.)[^\s/$.?#].[^\s]*)',
   caseSensitive: false,
+  dotAll: true,
 );
 
 final _looseUrlRegex = RegExp(
-  r'^((?:.|\n)*?)([^\s]*\.[^\s]*)',
+  r'^(.*?)([^\s]*\.[^\s]*)',
   caseSensitive: false,
+  dotAll: true,
 );
 
-final _protocolIdentifierRegex = RegExp(
-  r'^(https?:\/\/)',
-  caseSensitive: false
-);
+final _protocolIdentifierRegex =
+    RegExp(r'^(https?:\/\/)', caseSensitive: false);
 
 class UrlLinkifier extends Linkifier {
   const UrlLinkifier();

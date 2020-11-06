@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Expand parsing to `www.` URLs ([#21](https://github.com/Cretezy/linkify/pull/21), thanks [@SpencerLindemuth](https://github.com/SpencerLindemuth)!)
+- Add `\r` parsing, requires Dart >=2.4 ([#26](https://github.com/Cretezy/linkify/pull/26), thanks [@hpoul](https://github.com/hpoul)!)
 
 ## [2.1.0] - 2020-04-24
 
