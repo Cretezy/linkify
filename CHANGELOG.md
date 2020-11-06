@@ -1,3 +1,7 @@
+## Unreleased
+
+- Expand parsing to `www.` URLs ([#21](https://github.com/Cretezy/linkify/pull/21), thanks [@SpencerLindemuth](https://github.com/SpencerLindemuth)!)
+
 ## [2.1.0] - 2020-04-24
 
 - Add loose URL option (`looseUrl`)
