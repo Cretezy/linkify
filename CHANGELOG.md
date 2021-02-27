@@ -1,3 +1,5 @@
+## [4.0.0-nullsafety.0] - 2021-02-27
+- Migrate to null safety.
 ## [3.0.0] - 2020-11-05
 
 - Expand parsing to `www.` URLs ([#21](https://github.com/Cretezy/linkify/pull/21), thanks [@SpencerLindemuth](https://github.com/SpencerLindemuth)!)
