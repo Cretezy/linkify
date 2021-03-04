@@ -18,14 +18,13 @@ abstract class LinkifyElement {
 class LinkableElement extends LinkifyElement {
   final String url;
 
-  LinkableElement(String text, this.url) : super(text ?? url);
+  LinkableElement(String? text, this.url) : super(text ?? url);
 
   @override
   bool operator ==(other) => equals(other);
 
   @override
-  bool equals(other) =>
-      other is LinkableElement && super.equals(other) && other.url == url;
+  bool equals(other) => other is LinkableElement && super.equals(other) && other.url == url;
 }
 
 /// Represents an element containing text
@@ -47,8 +46,7 @@ class TextElement extends LinkifyElement {
 abstract class Linkifier {
   const Linkifier();
 
-  List<LinkifyElement> parse(
-      List<LinkifyElement> elements, LinkifyOptions options);
+  List<LinkifyElement> parse(List<LinkifyElement> elements, LinkifyOptions? options);
 }
 
 class LinkifyOptions {
@@ -89,7 +87,7 @@ const defaultLinkifiers = [_urlLinkifier, _emailLinkifier];
 /// Will default to all (if `null`).
 List<LinkifyElement> linkify(
   String text, {
-  LinkifyOptions options,
+  LinkifyOptions? options,
   List<Linkifier> linkifiers = defaultLinkifiers,
 }) {
   var list = <LinkifyElement>[TextElement(text)];

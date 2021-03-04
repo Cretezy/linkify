@@ -20,16 +20,22 @@ class EmailLinkifier extends Linkifier {
         if (match == null) {
           list.add(element);
         } else {
-          final text = element.text.replaceFirst(match.group(0), '');
+          final matchGroup0 = match.group(0);
+          if (matchGroup0 == null) return;
+          final text = element.text.replaceFirst(matchGroup0, '');
 
-          if (match.group(1).isNotEmpty) {
-            list.add(TextElement(match.group(1)));
+          final matchGroup1 = match.group(1);
+          if (matchGroup1 == null) return;
+          if (matchGroup1.isNotEmpty) {
+            list.add(TextElement(matchGroup1));
           }
 
-          if (match.group(2).isNotEmpty) {
+          final matchGroup2 = match.group(2);
+          if (matchGroup2 == null) return;
+          if (matchGroup2.isNotEmpty) {
             // Always humanize emails
             list.add(EmailElement(
-              match.group(2).replaceFirst(RegExp(r'mailto:'), ''),
+              matchGroup2.replaceFirst(RegExp(r'mailto:'), ''),
             ));
           }
 
@@ -61,8 +67,5 @@ class EmailElement extends LinkableElement {
   bool operator ==(other) => equals(other);
 
   @override
-  bool equals(other) =>
-      other is EmailElement &&
-      super.equals(other) &&
-      other.emailAddress == emailAddress;
+  bool equals(other) => other is EmailElement && super.equals(other) && other.emailAddress == emailAddress;
 }
