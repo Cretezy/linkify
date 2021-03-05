@@ -2,6 +2,8 @@
 
 Low-level link (text, URLs, emails) parsing library in Dart.
 
+Required Dart >=2.12 (has null-safety support).
+
 [Flutter library](https://github.com/Cretezy/flutter_linkify).
 
 [Pub](https://pub.dartlang.org/packages/linkify) - [API Docs](https://pub.dartlang.org/documentation/linkify/latest/) - [GitHub](https://github.com/Cretezy/linkify)
@@ -12,7 +14,7 @@ Install by adding this package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  linkify: ^3.0.0
+  linkify: ^4.0.0
 ```
 
 ## Usage

@@ -20,16 +20,16 @@ class EmailLinkifier extends Linkifier {
         if (match == null) {
           list.add(element);
         } else {
-          final text = element.text.replaceFirst(match.group(0), '');
+          final text = element.text.replaceFirst(match.group(0)!, '');
 
-          if (match.group(1).isNotEmpty) {
-            list.add(TextElement(match.group(1)));
+          if (match.group(1)?.isNotEmpty == true) {
+            list.add(TextElement(match.group(1)!));
           }
 
-          if (match.group(2).isNotEmpty) {
+          if (match.group(2)?.isNotEmpty == true) {
             // Always humanize emails
             list.add(EmailElement(
-              match.group(2).replaceFirst(RegExp(r'mailto:'), ''),
+              match.group(2)!.replaceFirst(RegExp(r'mailto:'), ''),
             ));
           }
 

@@ -29,7 +29,7 @@ class UrlLinkifier extends Linkifier {
         var loose = false;
         var match = _urlRegex.firstMatch(element.text);
 
-        if (match == null && options.looseUrl ?? false) {
+        if (match == null && options.looseUrl) {
           match = _looseUrlRegex.firstMatch(element.text);
           loose = true;
         }
@@ -37,17 +37,17 @@ class UrlLinkifier extends Linkifier {
         if (match == null) {
           list.add(element);
         } else {
-          final text = element.text.replaceFirst(match.group(0), '');
+          final text = element.text.replaceFirst(match.group(0)!, '');
 
-          if (match.group(1).isNotEmpty) {
-            list.add(TextElement(match.group(1)));
+          if (match.group(1)?.isNotEmpty == true) {
+            list.add(TextElement(match.group(1)!));
           }
 
-          if (match.group(2).isNotEmpty) {
-            var originalUrl = match.group(2);
-            String end;
+          if (match.group(2)?.isNotEmpty == true) {
+            var originalUrl = match.group(2)!;
+            String? end;
 
-            if ((options.excludeLastPeriod ?? false) &&
+            if ((options.excludeLastPeriod) &&
                 originalUrl[originalUrl.length - 1] == ".") {
               end = ".";
               originalUrl = originalUrl.substring(0, originalUrl.length - 1);
@@ -56,16 +56,15 @@ class UrlLinkifier extends Linkifier {
             var url = originalUrl;
 
             if (loose || !originalUrl.startsWith(_protocolIdentifierRegex)) {
-              originalUrl =
-                  (options.defaultToHttps ?? false ? "https://" : "http://") +
-                      originalUrl;
+              originalUrl = (options.defaultToHttps ? "https://" : "http://") +
+                  originalUrl;
             }
 
-            if ((options.humanize ?? false) || (options.removeWww ?? false)) {
-              if (options.humanize ?? false) {
+            if ((options.humanize) || (options.removeWww)) {
+              if (options.humanize) {
                 url = url.replaceFirst(RegExp(r'https?://'), '');
               }
-              if (options.removeWww ?? false) {
+              if (options.removeWww) {
                 url = url.replaceFirst(RegExp(r'www\.'), '');
               }
 
@@ -97,7 +96,7 @@ class UrlLinkifier extends Linkifier {
 
 /// Represents an element containing a link
 class UrlElement extends LinkableElement {
-  UrlElement(String url, [String text]) : super(text, url);
+  UrlElement(String url, [String? text]) : super(text, url);
 
   @override
   String toString() {

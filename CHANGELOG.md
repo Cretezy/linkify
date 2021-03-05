@@ -1,3 +1,7 @@
+## [4.0.0] - 2021-03-04
+
+- Add null-safety support. Now required Dart >=2.12
+
 ## [3.0.0] - 2020-11-05
 
 - Expand parsing to `www.` URLs ([#21](https://github.com/Cretezy/linkify/pull/21), thanks [@SpencerLindemuth](https://github.com/SpencerLindemuth)!)

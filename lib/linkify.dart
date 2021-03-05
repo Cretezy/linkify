@@ -18,7 +18,7 @@ abstract class LinkifyElement {
 class LinkableElement extends LinkifyElement {
   final String url;
 
-  LinkableElement(String text, this.url) : super(text ?? url);
+  LinkableElement(String? text, this.url) : super(text ?? url);
 
   @override
   bool operator ==(other) => equals(other);
@@ -67,7 +67,7 @@ class LinkifyOptions {
   /// Excludes `.` at end of URLs.
   final bool excludeLastPeriod;
 
-  LinkifyOptions({
+  const LinkifyOptions({
     this.humanize = true,
     this.removeWww = false,
     this.looseUrl = false,
@@ -89,20 +89,18 @@ const defaultLinkifiers = [_urlLinkifier, _emailLinkifier];
 /// Will default to all (if `null`).
 List<LinkifyElement> linkify(
   String text, {
-  LinkifyOptions options,
+  LinkifyOptions options = const LinkifyOptions(),
   List<Linkifier> linkifiers = defaultLinkifiers,
 }) {
   var list = <LinkifyElement>[TextElement(text)];
 
-  if (text == null || text.isEmpty) {
+  if (text.isEmpty) {
     return [];
   }
 
-  if (linkifiers == null || linkifiers.isEmpty) {
+  if (linkifiers.isEmpty) {
     return list;
   }
-
-  options ??= LinkifyOptions();
 
   linkifiers.forEach((linkifier) {
     list = linkifier.parse(list, options);
