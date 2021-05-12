@@ -1,8 +1,11 @@
 import 'package:linkify/src/email.dart';
 import 'package:linkify/src/url.dart';
+import 'package:linkify/src/user_tag.dart';
 
 export 'package:linkify/src/email.dart' show EmailLinkifier, EmailElement;
 export 'package:linkify/src/url.dart' show UrlLinkifier, UrlElement;
+export 'package:linkify/src/user_tag.dart'
+    show UserTagLinkifier, UserTagElement;
 
 abstract class LinkifyElement {
   final String text;
@@ -78,7 +81,8 @@ class LinkifyOptions {
 
 const _urlLinkifier = UrlLinkifier();
 const _emailLinkifier = EmailLinkifier();
-const defaultLinkifiers = [_urlLinkifier, _emailLinkifier];
+const _userTagLinkifier = UserTagLinkifier();
+const defaultLinkifiers = [_urlLinkifier, _emailLinkifier, _userTagLinkifier];
 
 /// Turns [text] into a list of [LinkifyElement]
 ///
