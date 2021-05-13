@@ -1,6 +1,6 @@
 # `linkify` [![pub package](https://img.shields.io/pub/v/linkify.svg)](https://pub.dartlang.org/packages/linkify)
 
-Low-level link (text, URLs, emails) parsing library in Dart.
+Low-level link (text, URLs, emails, phone numbers) parsing library in Dart.
 
 Required Dart >=2.12 (has null-safety support).
 
