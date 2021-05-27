@@ -167,6 +167,32 @@ void main() {
     );
   });
 
+  test('Parses both loose and not URL on the same text', () {
+    expectListEqual(
+      linkify('example.com http://example.com',
+          options: LinkifyOptions(looseUrl: true)),
+      [
+        UrlElement('http://example.com', 'example.com'),
+        TextElement(' '),
+        UrlElement('http://example.com', 'example.com')
+      ],
+    );
+
+    expectListEqual(
+      linkify(
+          'This text mixes both loose urls like example.com and not loose urls like http://example.com and http://another.example.com',
+          options: LinkifyOptions(looseUrl: true)),
+      [
+        TextElement('This text mixes both loose urls like '),
+        UrlElement('http://example.com', 'example.com'),
+        TextElement(' and not loose urls like '),
+        UrlElement('http://example.com', 'example.com'),
+        TextElement(' and '),
+        UrlElement('http://another.example.com', 'another.example.com')
+      ],
+    );
+  });
+
   test('Parses ending period', () {
     expectListEqual(
       linkify("https://example.com/test."),
