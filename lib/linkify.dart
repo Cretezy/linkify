@@ -81,8 +81,7 @@ class LinkifyOptions {
 
 const _urlLinkifier = UrlLinkifier();
 const _emailLinkifier = EmailLinkifier();
-const _userTagLinkifier = UserTagLinkifier();
-const defaultLinkifiers = [_urlLinkifier, _emailLinkifier, _userTagLinkifier];
+const defaultLinkifiers = [_urlLinkifier, _emailLinkifier];
 
 /// Turns [text] into a list of [LinkifyElement]
 ///

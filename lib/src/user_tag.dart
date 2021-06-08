@@ -1,5 +1,7 @@
 import 'package:linkify/linkify.dart';
 
+/// For details on how this RegEx works, go to this link.
+/// https://regex101.com/r/QN046t/1
 final _userTagRegex = RegExp(
   r'^(.*?)(?<![\w@])@([\w@]+(?:[.!][\w@]+)*)',
   caseSensitive: false,
