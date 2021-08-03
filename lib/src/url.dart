@@ -1,7 +1,7 @@
 import 'package:linkify/linkify.dart';
 
 final _urlRegex = RegExp(
-  r'^(.*?)((?:https?:\/\/|www\.)[^\s/$.?#].[^\s]*)',
+  r'^(.*?)((?:https?:\/\/|www\.)[^\s/$.?#].[\/\\\%:\?=&#@;A-Za-z0-9_.~-]*)',
   caseSensitive: false,
   dotAll: true,
 );
