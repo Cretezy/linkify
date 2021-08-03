@@ -14,7 +14,7 @@ Install by adding this package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  linkify: ^4.0.0
+  linkify: ^4.1.0
 ```
 
 ## Usage
