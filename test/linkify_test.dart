@@ -212,4 +212,24 @@ void main() {
       ],
     );
   });
+
+  test('Parses user tag', () {
+    expectListEqual(
+      linkify("@example"),
+      [UserTagElement("@example")],
+    );
+  });
+
+  test('Parses email, link, and user tag', () {
+    expectListEqual(
+      linkify("person@example.com at https://google.com @example"),
+      [
+        EmailElement("person@example.com"),
+        TextElement(" at "),
+        UrlElement("https://google.com", "google.com"),
+        TextElement(" "),
+        UserTagElement("@example")
+      ],
+    );
+  });
 }
