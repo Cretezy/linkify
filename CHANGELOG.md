@@ -1,6 +1,12 @@
+## [4.1.0] - 2021-08-02
+
+- Fix loose URL not being parsed if the text have a non loose URL ([#42](https://github.com/Cretezy/linkify/pull/42), thanks [@EsteveAguilera](https://github.com/EsteveAguilera)!)
+- User Tagging Linkifier ([#38](https://github.com/Cretezy/linkify/pull/38), thanks [@HSCOGT](https://github.com/HSCOGT)!)
+
 ## [4.0.0] - 2021-03-04
 
 - Add null-safety support. Now required Dart >=2.12
+
 
 ## [3.0.0] - 2020-11-05
 

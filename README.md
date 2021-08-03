@@ -44,6 +44,19 @@ linkify("https://cretezy.com", options: LinkifyOptions(humanize: false));
   - `defaultToHttps`: When used with [looseUrl], default to `https` instead of `http`
 - `excludeLastPeriod`: Excludes `.` at end of URLs
 
+### Linkifiers
+
+You can pass linkifiers to `linkify` as such:
+
+```dart
+linkify("@cretezy", linkifiers: [UserTagLinkifier()]);
+```
+
+Available linkifiers:
+- `EmailLinkifier`
+- `UrlLinkifier`
+- `UserTagLinkifier`
+
 
 ## Custom Linkifier
 
