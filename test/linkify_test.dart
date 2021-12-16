@@ -215,14 +215,21 @@ void main() {
 
   test('Parses user tag', () {
     expectListEqual(
-      linkify("@example"),
+      linkify("@example", linkifiers: [UserTagLinkifier()]),
       [UserTagElement("@example")],
     );
   });
 
   test('Parses email, link, and user tag', () {
     expectListEqual(
-      linkify("person@example.com at https://google.com @example"),
+      linkify(
+        "person@example.com at https://google.com @example",
+        linkifiers: [
+          EmailLinkifier(),
+          UserTagLinkifier(),
+          UrlLinkifier(),
+        ],
+      ),
       [
         EmailElement("person@example.com"),
         TextElement(" at "),

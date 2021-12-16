@@ -3,7 +3,7 @@ import 'package:linkify/linkify.dart';
 /// For details on how this RegEx works, go to this link.
 /// https://regex101.com/r/QN046t/1
 final _userTagRegex = RegExp(
-  r'^(.*?)(?<![\w@])@([\w@]+(?:[.!][\w@]+)*)',
+  r'^(.*?)@([\w@]+(?:[.!][\w@]+)*)',
   caseSensitive: false,
   dotAll: true,
 );
@@ -17,19 +17,30 @@ class UserTagLinkifier extends Linkifier {
 
     elements.forEach((element) {
       if (element is TextElement) {
-        final match = _userTagRegex.firstMatch(element.text);
+        var match = _userTagRegex.firstMatch(element.text);
 
         if (match == null) {
           list.add(element);
         } else {
-          final text = element.text.replaceFirst(match.group(0)!, '');
-
-          if (match.group(1)?.isNotEmpty == true) {
-            list.add(TextElement(match.group(1)!));
+          var textElement = '';
+          var text = element.text.replaceFirst(match.group(0)!, '');
+          while (match?.group(1)?.contains(RegExp(r'[\w@]$')) == true) {
+            textElement += match!.group(0)!;
+            match = _userTagRegex.firstMatch(text);
+            if (match == null) {
+              textElement += text;
+              text = '';
+            } else {
+              text = text.replaceFirst(match.group(0)!, '');
+            }
           }
 
-          if (match.group(2)?.isNotEmpty == true) {
-            list.add(UserTagElement('@${match.group(2)!}'));
+          if (textElement.isNotEmpty || match?.group(1)?.isNotEmpty == true) {
+            list.add(TextElement(textElement + (match?.group(1) ?? '')));
+          }
+
+          if (match?.group(2)?.isNotEmpty == true) {
+            list.add(UserTagElement('@${match!.group(2)!}'));
           }
 
           if (text.isNotEmpty) {
