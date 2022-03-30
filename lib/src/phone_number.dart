@@ -1,7 +1,6 @@
 import 'package:linkify/linkify.dart';
 
 final _phoneNumberRegex = RegExp(
-  // r'(.*?)((\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4})',
   r'^(.*?)((tel:)?[+]*[\s/0-9]{8,15})',
   caseSensitive: false,
   dotAll: true,
