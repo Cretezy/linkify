@@ -2,6 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:linkify/linkify.dart';
 import 'package:test/test.dart';
 
+import '../lib/src/phone_number.dart';
+
 final listEqual = const ListEquality().equals;
 
 void expectListEqual(List actual, List expected) {
@@ -215,20 +217,101 @@ void main() {
 
   test('Parses user tag', () {
     expectListEqual(
-      linkify("@example"),
+      linkify(
+        "@example",
+        linkifiers: [
+          UrlLinkifier(),
+          EmailLinkifier(),
+          UserTagLinkifier(),
+        ],
+      ),
       [UserTagElement("@example")],
     );
   });
 
   test('Parses email, link, and user tag', () {
     expectListEqual(
-      linkify("person@example.com at https://google.com @example"),
+      linkify(
+        "person@example.com at https://google.com @example",
+        linkifiers: [
+          UrlLinkifier(),
+          EmailLinkifier(),
+          UserTagLinkifier(),
+        ],
+      ),
       [
         EmailElement("person@example.com"),
         TextElement(" at "),
         UrlElement("https://google.com", "google.com"),
         TextElement(" "),
         UserTagElement("@example")
+      ],
+    );
+  });
+
+  test('Parses invalid phone number', () {
+    expectListEqual(
+      linkify(
+        "This is an invalid numbers 17.00",
+        linkifiers: [
+          UrlLinkifier(),
+          EmailLinkifier(),
+          PhoneNumberLinkifier(),
+        ],
+      ),
+      [
+        TextElement("This is an invalid numbers 17.00"),
+      ],
+    );
+  });
+
+  test('Parses german phone number', () {
+    expectListEqual(
+      linkify(
+        "This is a german example number +49 30 901820",
+        linkifiers: [
+          UrlLinkifier(),
+          EmailLinkifier(),
+          PhoneNumberLinkifier(),
+        ],
+      ),
+      [
+        TextElement("This is a german example number "),
+        PhoneNumberElement("+49 30 901820"),
+      ],
+    );
+  });
+
+  test('Parses seattle phone number', () {
+    expectListEqual(
+      linkify(
+        "This is a seattle example number +1 206 555 0100",
+        linkifiers: [
+          UrlLinkifier(),
+          EmailLinkifier(),
+          PhoneNumberLinkifier(),
+        ],
+      ),
+      [
+        TextElement("This is a seattle example number "),
+        PhoneNumberElement("+1 206 555 0100"),
+      ],
+    );
+  });
+
+  test('Parses uk phone number', () {
+    expectListEqual(
+      linkify(
+        "This is an example number from uk: +44 113 496 0000",
+        linkifiers: [
+          UrlLinkifier(),
+          EmailLinkifier(),
+          PhoneNumberLinkifier(),
+        ],
+      ),
+      [
+        TextElement("This is an example number from uk: "),
+        PhoneNumberElement("+44 113 496 0000"),
       ],
     );
   });
