@@ -15,7 +15,7 @@ class UserTagLinkifier extends Linkifier {
   List<LinkifyElement> parse(elements, options) {
     final list = <LinkifyElement>[];
 
-    elements.forEach((element) {
+    for (var element in elements) {
       if (element is TextElement) {
         var match = _userTagRegex.firstMatch(element.text);
 
@@ -50,7 +50,7 @@ class UserTagLinkifier extends Linkifier {
       } else {
         list.add(element);
       }
-    });
+    }
 
     return list;
   }
@@ -69,6 +69,9 @@ class UserTagElement extends LinkableElement {
 
   @override
   bool operator ==(other) => equals(other);
+
+  @override
+  int get hashCode => Object.hash(text, originText, url, userTag);
 
   @override
   bool equals(other) =>

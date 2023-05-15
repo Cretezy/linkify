@@ -2,8 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:linkify/linkify.dart';
 import 'package:test/test.dart';
 
-import '../lib/src/phone_number.dart';
-
 final listEqual = const ListEquality().equals;
 
 void expectListEqual(List actual, List expected) {

@@ -7,7 +7,7 @@ final _urlRegex = RegExp(
 );
 
 final _looseUrlRegex = RegExp(
-  r'^(.*?)((https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//="'`]*))',
+  r'''^(.*?)((https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//="'`]*))''',
   caseSensitive: false,
   dotAll: true,
 );
@@ -24,7 +24,7 @@ class UrlLinkifier extends Linkifier {
   List<LinkifyElement> parse(elements, options) {
     final list = <LinkifyElement>[];
 
-    elements.forEach((element) {
+    for (var element in elements) {
       if (element is TextElement) {
         var match = options.looseUrl
             ? _looseUrlRegex.firstMatch(element.text)
@@ -87,7 +87,7 @@ class UrlLinkifier extends Linkifier {
       } else {
         list.add(element);
       }
-    });
+    }
 
     return list;
   }
@@ -95,7 +95,8 @@ class UrlLinkifier extends Linkifier {
 
 /// Represents an element containing a link
 class UrlElement extends LinkableElement {
-  UrlElement(String url, [String? text, String? originText]) : super(text, url, originText);
+  UrlElement(String url, [String? text, String? originText])
+      : super(text, url, originText);
 
   @override
   String toString() {
@@ -104,6 +105,9 @@ class UrlElement extends LinkableElement {
 
   @override
   bool operator ==(other) => equals(other);
+
+  @override
+  int get hashCode => Object.hash(text, originText, url);
 
   @override
   bool equals(other) => other is UrlElement && super.equals(other);

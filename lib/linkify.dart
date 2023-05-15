@@ -1,22 +1,25 @@
 import 'package:linkify/src/email.dart';
 import 'package:linkify/src/url.dart';
-import 'package:linkify/src/user_tag.dart';
 
 export 'package:linkify/src/email.dart' show EmailLinkifier, EmailElement;
 export 'package:linkify/src/url.dart' show UrlLinkifier, UrlElement;
 export 'package:linkify/src/user_tag.dart'
     show UserTagLinkifier, UserTagElement;
+export 'package:linkify/src/phone_number.dart'
+    show PhoneNumberLinkifier, PhoneNumberElement;
 
 abstract class LinkifyElement {
   final String text;
   final String originText;
 
-  LinkifyElement(text, [String? originText]) :
-      this.text = text,
-      this.originText = originText ?? text;
+  LinkifyElement(this.text, [String? originText])
+      : originText = originText ?? text;
 
   @override
   bool operator ==(other) => equals(other);
+
+  @override
+  int get hashCode => Object.hash(text, originText);
 
   bool equals(other) => other is LinkifyElement && other.text == text;
 }
@@ -24,10 +27,14 @@ abstract class LinkifyElement {
 class LinkableElement extends LinkifyElement {
   final String url;
 
-  LinkableElement(String? text, this.url, [String? originText]) : super(text ?? url, originText);
+  LinkableElement(String? text, this.url, [String? originText])
+      : super(text ?? url, originText);
 
   @override
   bool operator ==(other) => equals(other);
+
+  @override
+  int get hashCode => Object.hash(text, originText, url);
 
   @override
   bool equals(other) =>
@@ -45,6 +52,9 @@ class TextElement extends LinkifyElement {
 
   @override
   bool operator ==(other) => equals(other);
+
+  @override
+  int get hashCode => Object.hash(text, originText);
 
   @override
   bool equals(other) => other is TextElement && super.equals(other);
@@ -108,9 +118,9 @@ List<LinkifyElement> linkify(
     return list;
   }
 
-  linkifiers.forEach((linkifier) {
+  for (var linkifier in linkifiers) {
     list = linkifier.parse(list, options);
-  });
+  }
 
   return list;
 }

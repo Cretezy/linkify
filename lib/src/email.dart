@@ -13,7 +13,7 @@ class EmailLinkifier extends Linkifier {
   List<LinkifyElement> parse(elements, options) {
     final list = <LinkifyElement>[];
 
-    elements.forEach((element) {
+    for (var element in elements) {
       if (element is TextElement) {
         final match = _emailRegex.firstMatch(element.text);
 
@@ -40,7 +40,7 @@ class EmailLinkifier extends Linkifier {
       } else {
         list.add(element);
       }
-    });
+    }
 
     return list;
   }
@@ -59,6 +59,9 @@ class EmailElement extends LinkableElement {
 
   @override
   bool operator ==(other) => equals(other);
+
+  @override
+  int get hashCode => Object.hash(text, originText, url, emailAddress);
 
   @override
   bool equals(other) =>

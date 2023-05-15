@@ -13,7 +13,7 @@ class PhoneNumberLinkifier extends Linkifier {
   List<LinkifyElement> parse(elements, options) {
     final list = <LinkifyElement>[];
 
-    elements.forEach((element) {
+    for (var element in elements) {
       if (element is TextElement) {
         var match = _phoneNumberRegex.firstMatch(element.text);
 
@@ -39,7 +39,7 @@ class PhoneNumberLinkifier extends Linkifier {
       } else {
         list.add(element);
       }
-    });
+    }
 
     return list;
   }
@@ -64,8 +64,9 @@ class PhoneNumberElement extends LinkableElement {
   bool operator ==(other) => equals(other);
 
   @override
+  int get hashCode => Object.hash(text, originText, url, phoneNumber);
+
+  @override
   bool equals(other) =>
-      other is PhoneNumberElement &&
-      super.equals(other) &&
-      other.phoneNumber == phoneNumber;
+      other is PhoneNumberElement && phoneNumber == other.phoneNumber;
 }
