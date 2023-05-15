@@ -41,11 +41,13 @@ class UrlLinkifier extends Linkifier {
 
           if (match.group(2)?.isNotEmpty == true) {
             var originalUrl = match.group(2)!;
+            var originText = originalUrl;
             String? end;
 
             if ((options.excludeLastPeriod) &&
                 originalUrl[originalUrl.length - 1] == ".") {
               end = ".";
+              originText = originText.substring(0, originText.length - 1);
               originalUrl = originalUrl.substring(0, originalUrl.length - 1);
             }
 
@@ -67,9 +69,10 @@ class UrlLinkifier extends Linkifier {
               list.add(UrlElement(
                 originalUrl,
                 url,
+                originText,
               ));
             } else {
-              list.add(UrlElement(originalUrl));
+              list.add(UrlElement(originalUrl, null, originText));
             }
 
             if (end != null) {
@@ -92,7 +95,7 @@ class UrlLinkifier extends Linkifier {
 
 /// Represents an element containing a link
 class UrlElement extends LinkableElement {
-  UrlElement(String url, [String? text]) : super(text, url);
+  UrlElement(String url, [String? text, String? originText]) : super(text, url, originText);
 
   @override
   String toString() {

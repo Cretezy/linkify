@@ -9,8 +9,11 @@ export 'package:linkify/src/user_tag.dart'
 
 abstract class LinkifyElement {
   final String text;
+  final String originText;
 
-  LinkifyElement(this.text);
+  LinkifyElement(text, [String? originText]) :
+      this.text = text,
+      this.originText = originText ?? text;
 
   @override
   bool operator ==(other) => equals(other);
@@ -21,7 +24,7 @@ abstract class LinkifyElement {
 class LinkableElement extends LinkifyElement {
   final String url;
 
-  LinkableElement(String? text, this.url) : super(text ?? url);
+  LinkableElement(String? text, this.url, [String? originText]) : super(text ?? url, originText);
 
   @override
   bool operator ==(other) => equals(other);
