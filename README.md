@@ -1,6 +1,6 @@
 # `linkify` [![pub package](https://img.shields.io/pub/v/linkify.svg)](https://pub.dartlang.org/packages/linkify)
 
-Low-level link (text, URLs, emails, phone numbers) parsing library in Dart.
+Low-level link (text, URLs, emails, phone numbers, user tags) parsing library in Dart.
 
 Required Dart >=2.12 (has null-safety support).
 
@@ -14,7 +14,7 @@ Install by adding this package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  linkify: ^4.0.0
+  linkify: ^5.0.0
 ```
 
 ## Usage
@@ -53,10 +53,11 @@ linkify("@cretezy", linkifiers: [UserTagLinkifier()]);
 ```
 
 Available linkifiers:
+
 - `EmailLinkifier`
 - `UrlLinkifier`
+- `PhoneNumberLinkifier`
 - `UserTagLinkifier`
-
 
 ## Custom Linkifier
 
