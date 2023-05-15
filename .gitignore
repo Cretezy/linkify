@@ -4,3 +4,7 @@
 .pub/
 build/
 doc/api/
+
+# Packages should not commit the "pubspec.lock" file. See
+# https://stackoverflow.com/a/16136740/8358501
+/pubspec.lock
