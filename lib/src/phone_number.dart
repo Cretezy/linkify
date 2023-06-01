@@ -28,7 +28,8 @@ class PhoneNumberLinkifier extends Linkifier {
 
           if (match.group(2)?.isNotEmpty == true) {
             list.add(PhoneNumberElement(
-              match.group(2)!.replaceFirst(RegExp(r'tel:'), ''),
+                match.group(2)!.replaceFirst(RegExp(r'tel:'), ''),
+                match.group(2)
             ));
           }
 
@@ -49,10 +50,11 @@ class PhoneNumberLinkifier extends Linkifier {
 class PhoneNumberElement extends LinkableElement {
   final String phoneNumber;
 
-  PhoneNumberElement(this.phoneNumber)
+  PhoneNumberElement(this.phoneNumber, String? originText)
       : super(
           phoneNumber,
           'tel:$phoneNumber',
+          originText,
         );
 
   @override

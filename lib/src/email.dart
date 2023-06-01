@@ -30,6 +30,7 @@ class EmailLinkifier extends Linkifier {
             // Always humanize emails
             list.add(EmailElement(
               match.group(2)!.replaceFirst(RegExp(r'mailto:'), ''),
+              match.group(2)
             ));
           }
 
@@ -50,7 +51,7 @@ class EmailLinkifier extends Linkifier {
 class EmailElement extends LinkableElement {
   final String emailAddress;
 
-  EmailElement(this.emailAddress) : super(emailAddress, 'mailto:$emailAddress');
+  EmailElement(this.emailAddress, String? originText) : super(emailAddress, 'mailto:$emailAddress', originText);
 
   @override
   String toString() {
