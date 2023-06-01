@@ -94,7 +94,7 @@ class LinkifyOptions {
 
 const _urlLinkifier = UrlLinkifier();
 const _emailLinkifier = EmailLinkifier();
-const defaultLinkifiers = [_urlLinkifier, _emailLinkifier];
+const defaultLinkifiers = [_emailLinkifier, _urlLinkifier];
 
 /// Turns [text] into a list of [LinkifyElement]
 ///
