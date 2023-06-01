@@ -40,7 +40,7 @@ class UserTagLinkifier extends Linkifier {
           }
 
           if (match?.group(2)?.isNotEmpty == true) {
-            list.add(UserTagElement('@${match!.group(2)!}'));
+            list.add(UserTagElement('@${match!.group(2)!}', match!.group(2)));
           }
 
           if (text.isNotEmpty) {
@@ -60,7 +60,7 @@ class UserTagLinkifier extends Linkifier {
 class UserTagElement extends LinkableElement {
   final String userTag;
 
-  UserTagElement(this.userTag) : super(userTag, userTag);
+  UserTagElement(this.userTag, String? originText) : super(userTag, userTag, originText);
 
   @override
   String toString() {
